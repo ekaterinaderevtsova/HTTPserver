@@ -13,12 +13,12 @@ public class Server {
     private class RequestHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
+            //accepting and "reading" the request
             InputStream inStream = httpExchange.getRequestBody();
             Scanner scanner = new Scanner(inStream);
             String data = scanner.nextLine();
             System.out.println(data);
 
-            // Properly closing the input stream and scanner
             inStream.close();
             scanner.close();
 
@@ -34,7 +34,7 @@ public class Server {
     private void runServer() throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
         HttpContext context = server.createContext("/main"); // describes all the HTTP-specific information about a single HTTP request
-        context.setHandler(new RequestHandler());
+        context.setHandler(new RequestHandler()); //attaches handler to contect -> requests will be handled
         server.start();
         System.out.println("Server started on port 8000");
     }
